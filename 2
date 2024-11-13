@@ -1,0 +1,31 @@
+import pandas as pd
+import numpy as np
+data = pd.read_csv('ClusteringData.csv')
+points = data[['Variable1', 'Variable2']].values
+k = 2
+max_iterations = 100  # Maximum number of iterations
+np.random.seed(42)  # for reproducibility
+centroids = points[np.random.choice(points.shape[0], k, replace=False)]
+def calculate_distance(point1, point2):
+    return np.sqrt(np.sum((point1 - point2) ** 2))
+def assign_clusters(points, centroids):
+    clusters = [[] for _ in range(k)]
+    for point in points:
+        distances = [calculate_distance(point, centroid) for centroid in centroids]
+        closest_centroid = np.argmin(distances)
+        clusters[closest_centroid].append(point)
+    return clusters
+def calculate_new_centroids(clusters):
+    new_centroids = []
+    for cluster in clusters:
+        new_centroids.append(np.mean(cluster, axis=0))
+    return new_centroids
+for iteration in range(max_iterations):
+    clusters = assign_clusters(points, centroids)
+    new_centroids = calculate_new_centroids(clusters)
+    if np.allclose(centroids, new_centroids):
+        break
+    centroids = new_centroids
+print("Final Centroids:", centroids)
+for idx, cluster in enumerate(clusters):
+    print(f"Cluster {idx + 1}: {cluster}")
