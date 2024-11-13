@@ -1,0 +1,84 @@
+dtree
+
+import pandas as pd 
+data=pd.DataFrame({
+    'Outlook':[1,1,2,3,3,3,2,1,1,3,1,2,2,1],
+    'Temp':[1,1,1,2,3,3,3,2,3,2,2,2,1,2],
+    'Humidity':[1,1,1,1,2,2,2,1,2,2,2,1,2,1],
+    'Wind':[1,2,1,1,1,2,2,1,1,1,2,2,1,2],
+    'Play':[0,0,1,1,1,0,1,0,1,1,1,1,1,0]
+})
+data.to_csv('DecTree.csv',index=False)
+print(data)
+
+import numpy as np
+import pandas as pd
+from sklearn import tree
+
+input_file = "DecTree.csv"
+df = pd.read_csv(input_file, header = 0)
+
+features = list(df.columns[:4])
+features
+
+y = df["Play"]
+X = df[features]
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X,y)
+
+from IPython.display import Image  
+from io import StringIO  
+import pydotplus
+
+dot_data = StringIO()  
+tree.export_graphviz(clf, out_file=dot_data,  
+                         feature_names=features)  
+graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
+Image(graph.create_png())  
+
+
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxx
+
+GMM
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from pandas import DataFrame
+from sklearn import datasets
+from sklearn.mixture import GaussianMixture
+
+iris = datasets.load_iris()
+X = iris.data[:,:2]
+
+d = pd.DataFrame(X)
+plt.scatter(d[0],d[1])
+
+gmm = GaussianMixture(n_components=3)
+gmm.fit(d)
+
+labels = gmm.predict(d)
+d['labels']=labels
+d0=d[d['labels']==0]
+d1=d[d['labels']==1]
+d2=d[d['labels']==2]
+
+labels = gmm.predict(d)
+d['labels']=labels
+d0=d[d['labels']==0]
+d1=d[d['labels']==1]
+d2=d[d['labels']==2]
+
+labels = gmm.predict(d)
+d['labels']=labels
+d0=d[d['labels']==0]
+d1=d[d['labels']==1]
+d2=d[d['labels']==2]
+
+labels = gmm.predict(d)
+d['labels']=labels
+d0=d[d['labels']==0]
+d1=d[d['labels']==1]
+d2=d[d['labels']==2]
